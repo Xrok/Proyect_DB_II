@@ -1,3 +1,7 @@
+/*
+*Clase donde creamos la estructura del extendible Hash
+*/
+
 #ifndef EXTENDIBLEHASH_H
 #define EXTENDIBLEHASH_H
 
@@ -31,6 +35,9 @@ public:
         sub_strings.second = line;
         return sub_strings;
     }
+/*
+*SETEAMOS EL HASH
+*/
     ExtendibleHash(int bucketsMaxSize)
     {
         this->globalDepht = 1; // 13
@@ -70,19 +77,35 @@ public:
         return false;
     }
 
+/*
+*Aqui desarrollamos la funcion de insercion, analizamos los dos casos principales y los dos secundarios: 
+*1. Insertar cuando aun hay espacio en el bucket(documento).
+*2. Cuando ya no hay espacio:
+*   2.1 Cuando el local Depht es menor que el global Depht(anadir un bucket mas).
+*   2.2 Cuando el local Depht es igual al global Depht.(extender el hash)
+*/
+
     void insert(T item)
     {
         int power = std::pow(2, globalDepht);
         int num = item->getKeyNumber() % power;
         std::string hashIndex = std::bitset<BITSET>(num).to_string();
         hashTable[hashIndex]->setMaxCapacity(bucketsMaxSize);
-
+/*
+*1. Insertar cuando aun hay espacio en el bucket(documento).
+*/
         if (hashTable[hashIndex]->insert(item))
         {
             hashTable[hashIndex]->insertPointing(hashIndex);
         }
+ /*
+*2. Cuando ya no hay espacio:
+*/       
         else
         {
+            /*
+*2.1 Cuando el local Depht es menor que el global Depht(anadir un bucket mas).
+*/
             if (hashTable[hashIndex]->getLocalDepht() < globalDepht)
             {
 
@@ -138,6 +161,9 @@ public:
                 hashTable[hashIndex6]->insert(item);
                 hashTable[hashIndex6]->insertPointing(hashIndex6);
             }
+            /*
+*2.2 Cuando el local Depht es igual al global Depht.(extender el hash)
+*/
             else
             {
                 std::map<std::string, Bucket<T> *> newHash;

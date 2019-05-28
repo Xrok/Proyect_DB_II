@@ -1,3 +1,6 @@
+/*
+*Clase donde crearemos los documentos y contendra a los registros repartidos (bucket)
+*/
 #ifndef BUCKET_H
 #define BUCKET_H
 

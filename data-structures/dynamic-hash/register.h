@@ -1,3 +1,7 @@
+/*
+*Clase donde guardamos como objeto a cada registro
+*/
+
 #ifndef REGISTER_H
 #define REGISTER_H
 
